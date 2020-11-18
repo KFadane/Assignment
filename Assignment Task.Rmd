@@ -1,0 +1,168 @@
+---
+title: "Assignment Task"
+author: "Kwanele Fadane (202000003)"
+date: "17/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Basics
+## 1.1 Variables
+What is the value of " B " after running these command?
+```{r}
+a <- 5.0
+c <- 10
+t <- 12
+B <- a+c/t
+```
+
+The value of B is: `r round(B,3)`
+
+What type of vector do you get in each of the following?
+```{r}
+vec_1 <- c(44, 5, 0, "k")
+vec_2 <- c(1, 2, 3, FALSE)
+vec_3 <- c("a", "b", "c", TRUE)
+vec_4 <- c(1, 2, 3, "4")
+```
+
+For the 1st vector we get : `r typeof(vec_1)`
+
+For the 2nd Vector we get : `r typeof(vec_2)`
+
+For the 3rd Vector we get : `r typeof(vec_3)`
+
+For the 4th Vector we get : `r typeof(vec_4)`
+
+### 1.2 Conditional Subsetting
+Consider the following vector:
+```{r}
+vec <- c(141.2741, 141.8392, 140.5730,NA, 141.3571, 139.8689, 
+         137.9384, NA,139.6620, 138.2521, 138.8635, 141.3885, NA)
+```
+### 1.2.1 Create a vector vec_1 with no missing values using conditional subsetting and explain your code
+```{r}
+vec_1 <- na.omit(vec)
+```
+
+`r vec_1`
+
+The `na.omit()` function lets us remove all incomplete objects in a data set. In the code the 'NA' are the missing values and the code will remove every 'NA'.
+
+### 1.2.2. Create a vector of indexes of missing values using conditional subsetting and explain your code 
+
+```{r}
+vec_2 <- vec[c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE,FALSE, TRUE ,FALSE, FALSE, FALSE, FALSE, TRUE)]
+```
+
+`r vec_2`
+
+The logic vector lets us use the `TRUE` and `FALSE` to identify the complete and incomplete variable. In this code `FALSE` is allocated to the complete variable and the `TRUE` to the incomplete. Therefore `TRUE` will select all NA variables.
+ 
+ 
+### 1.2.3 Write a code to determine how many missing values are in vec.
+
+```{r}
+vec_3 <- vec[c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE,FALSE, TRUE ,FALSE, FALSE, FALSE, FALSE, TRUE)]
+```
+
+`r length(vec_3)`
+
+### 1.2.4. Write a R code to create a data frame which contains details of 3 students as follows
+### Name
+### Surname
+### Age
+### Gender
+
+```{r}
+students = data.frame(Name=c("Andiswa", "Athenkosi", "Yanga"),
+                     Surname=c("Van Vyk", "Bossman", "Buthelezi"),
+                     Age=c(20,22,25),
+                     Gender=c("Male", "Female", "Male")
+                     )
+print(students)
+```
+
+
+### 2. Functions in R
+### 2.1. Create a function which returns a mean of an input vector and explain your code
+```{r}
+vec_one <- c(2,4,8, NA, 9, 12, NA, 16)
+vec_two <- c(2,5,NA,7,9)
+
+mean_value <-function(input){
+  output <-mean(input, na.rm = TRUE)
+  return(output)
+}
+```
+
+Mean value for vec_one is : `r mean_value(vec_one)`
+
+Mean value for vec_two is : `r mean_value(vec_two)`
+
+
+Assign `mean_value` to a function with an input parameter which gives the mean value of a given vector. The function will have take one argument which are the vectors, `vec_one ` and `vec_two`. The `output` variable is assigned to a `mean` function.The `mean` function looks at the values of the vectors and `na.rm = TRUE` removes the missing values from the input vector.
+
+### 2.2. Create a function which take no inputs , it reads a Titanic .csv file and returns its content and explain your code
+
+```{r}
+library(tidyverse)
+df<-tibble(read.csv("train.csv"))
+print(df)
+
+```
+
+The library `tidyverse` is for using read.csv. We assign the variable df to read.csv which is used to gives us accesses to the `train` document, then we print the df variable to get all the information on the file.
+
+### 3. Conditionals and Loops
+
+### 3.1. Write a function that take an input below and returns a transformed vector below into 1 when its element is male and 2 when its female using ifelse
+
+```{r}
+g <- c("MALE","FEMALE","FEMALE","MALE","FEMALE","MALE","MALE","FEMALE", "MALE","MALE","FEMALE","MALE","MALE",
+"FEMALE","MALE","MALE","MALE")
+```
+
+```{r}
+gender <-function(input){
+  output <-ifelse(input == "MALE",1,2)
+  return(output)
+}
+```
+
+`r gender(g)`
+
+### 3.2. Generate x from normal distribution and sample with replacement "M" and "F" for male and female respectively by running the code below.
+
+```{r}
+x <- rnorm(1000, 120, 5)
+y <- sample(c("M","F"),size = 1000, replace = TRUE)
+```
+
+### 3.2.1. Use the "cbind " function in R to create one dataset and assign it to df.
+
+```{r}
+df <- tibble(cbind(x,y))
+print(df)
+```
+
+### 3.2.2. Convert df from 3.2.1 into a data.frame
+
+```{r}
+x <- rnorm(1000, 120, 5)
+y <- sample(c("M","F"),size = 1000, replace = TRUE)
+
+df1 <-tibble(data.frame(df))
+print(df1)
+```
+
+### 3.2.3. Write a code using tidyverse to compute a number of males ("M") and females ("F") in 3.2.1
+
+```{r}
+library(tidyverse)
+df %>%  group_by(cbind(y)) %>%  count
+```
+
